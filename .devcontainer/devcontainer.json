@@ -1,0 +1,11 @@
+{
+  "name": "ricora-dawn",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "workspace",
+  "workspaceFolder": "/src",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode"
+  ]
+}

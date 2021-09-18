@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  workspace:
+    build: workspace
+    working_dir: "/src/"
+    command: >
+      bash -c "sleep infinity"
+    volumes:
+      - ..\:/src/
