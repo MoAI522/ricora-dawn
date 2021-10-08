@@ -4,7 +4,6 @@ services:
   workspace:
     build: workspace
     working_dir: "/workspace/"
-    command: >
-      /bin/sh -c "sleep infinity"
+    command: /bin/sh -c "sleep infinity"
     volumes:
       - ../:/workspace/

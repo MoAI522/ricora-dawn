@@ -1,11 +1,16 @@
-FROM node:14-alpine
+FROM node:14-buster
 
 #apt packages
-RUN apk update && \
-  apk add --no-cache \
+RUN apt-get update -y && \
+  apt-get install -y --no-install-recommends \
   git \
-  openssh \
-  ca-certificates
+  ssh \
+  ca-certificates \
+  curl
 
 #add ssh secret-key
 COPY .ssh /root/.ssh/
+
+#add .bashrc
+COPY .bashrc /root/
+RUN curl -o "/root/git-prompt.sh" https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
