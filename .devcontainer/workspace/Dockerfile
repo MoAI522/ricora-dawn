@@ -1,12 +1,10 @@
-FROM node:14-buster-slim
+FROM node:14-alpine
 
 #apt packages
-RUN apt-get update && \
-  apt-get install -y --no-install-recommends \
+RUN apk update && \
+  apk add --no-cache \
   git \
-  ca-certificates \
-  && \
-  apt-get -y clean
+  ca-certificates
 
 #add ssh secret-key
-COPY .ssh/ /root/.ssh/
+COPY .dummy .ssh/* /root/.ssh/

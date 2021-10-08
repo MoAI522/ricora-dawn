@@ -3,8 +3,8 @@ version: "3"
 services:
   workspace:
     build: workspace
-    working_dir: "/src/"
+    working_dir: "/workspace/"
     command: >
-      bash -c "sleep infinity"
+      /bin/sh -c "sleep infinity"
     volumes:
-      - ..\:/src/
+      - ../:/workspace/
