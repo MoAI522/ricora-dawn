@@ -3,8 +3,8 @@ import config from "../config";
 import { TSondDatas as TSongDatas } from "../types";
 import context from "./context";
 
-let arrayBuffers: Array<ArrayBuffer>;
-let audioBuffers: Array<AudioBuffer>;
+let arrayBuffers: Array<ArrayBuffer> = [];
+let audioBuffers: Array<AudioBuffer | null> = [];
 
 const load = async () => {
   arrayBuffers = await Promise.all(
@@ -14,19 +14,24 @@ const load = async () => {
       return arrayBuffer;
     })
   );
+  console.log("loading completed");
 };
 
 const init = async () => {
   audioBuffers = await Promise.all(
     arrayBuffers.map(async (arrayBuffer) => {
-      const audioBuffer = await context.ctx.decodeAudioData(arrayBuffer);
-      return audioBuffer;
+      const audioBuffer = await context
+        .getContext()
+        ?.decodeAudioData(arrayBuffer);
+      return audioBuffer || null;
     })
   );
 };
 
+const getAudioBuffers = () => audioBuffers;
+
 export default {
   load,
   init,
-  arrayBuffers,
+  getAudioBuffers,
 };

@@ -1,6 +1,6 @@
 const path = require("path");
 
-module.export = {
+module.exports = {
   entry: "./src/main.ts",
   module: {
     rules: [
@@ -16,5 +16,10 @@ module.export = {
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "public"),
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
   },
 };

@@ -1,7 +1,9 @@
-let ctx: AudioContext;
+let ctx: AudioContext | null = null;
 
 export const init = () => {
   ctx = new AudioContext();
 };
 
-export default { ctx, init };
+export const getContext = () => ctx;
+
+export default { init, getContext };

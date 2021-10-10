@@ -1,17 +1,19 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "webpack serve --open --mode development"
+  },
   "devDependencies": {
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
+    "react-dom": "^17.0.2",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.3",
     "webpack": "^5.56.1",
-    "webpack-cli": "^4.8.0"
-  },
-  "dependencies": {
-    "@types/react": "^17.0.27",
-    "@types/react-dom": "^17.0.9",
-    "react-dom": "^17.0.2"
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.1"
   }
 }
