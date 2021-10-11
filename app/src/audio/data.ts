@@ -1,3 +1,4 @@
+import { logger } from ".";
 import songdata from "../../assets/json/songdata.json";
 import config from "../config";
 import { TSondDatas as TSongDatas } from "../types";
@@ -14,7 +15,7 @@ const load = async () => {
       return arrayBuffer;
     })
   );
-  console.log("loading completed");
+  logger.debug("loading completed");
 };
 
 const init = async () => {

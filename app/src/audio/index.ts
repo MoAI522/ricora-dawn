@@ -1,6 +1,9 @@
+import createLogger from "../utilities/logger";
 import context from "./context";
 import data from "./data";
 import player from "./player";
+
+export const logger = createLogger("audio");
 
 type TAudioState = "not_initialized" | "initialized";
 let state: TAudioState = "not_initialized";
