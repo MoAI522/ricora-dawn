@@ -4,6 +4,7 @@ const playButton = document.getElementById("play_pause") as HTMLButtonElement;
 const trackNumberInput = document.getElementById(
   "track_number"
 ) as HTMLInputElement;
+const gainInput = document.getElementById("gain") as HTMLInputElement;
 
 let initialized = false;
 
@@ -29,6 +30,12 @@ playButton?.addEventListener("click", async () => {
   } else {
     audio.pause();
   }
+});
+
+gainInput.addEventListener("change", (e) => {
+  const gain = Number(gainInput.value);
+  if (gain < 0 || 1 < gain) return;
+  audio.setGain(gain);
 });
 
 audio.load();
