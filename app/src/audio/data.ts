@@ -31,8 +31,11 @@ const init = async () => {
 
 const getAudioBuffers = () => audioBuffers;
 
+const getNumberOfTracks = () => audioBuffers.length;
+
 export default {
   load,
   init,
   getAudioBuffers,
+  getNumberOfTracks,
 };

@@ -8,9 +8,15 @@ const jumpButton = document.getElementById("jump") as HTMLButtonElement;
 
 let initialized = false;
 
-playButton?.addEventListener("click", () => {
+playButton?.addEventListener("click", async () => {
   if (!initialized) {
-    audio.init();
+    await audio.init();
+    audio.setAudioEndCallback(() => {
+      audio.pause();
+      const currentTrackNum = audio.getCurrentTrackNum();
+      if (currentTrackNum + 1 < audio.getNumberOfTracks())
+        audio.play(currentTrackNum + 1);
+    });
     initialized = true;
   }
 
@@ -22,7 +28,7 @@ playButton?.addEventListener("click", () => {
 });
 jumpButton?.addEventListener("click", () => {
   const trackNumber = parseInt(trackNumberInput.value);
-  if (0 > trackNumber && trackNumber >= audio.getCurrentTrackNum()) return;
+  if (0 > trackNumber && trackNumber >= audio.getNumberOfTracks()) return;
   audio.play(trackNumber);
 });
 

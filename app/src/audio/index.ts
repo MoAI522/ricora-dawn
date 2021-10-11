@@ -24,6 +24,8 @@ export default {
   play: player.play,
   pause: player.pause,
   setGain: player.setGain,
+  setAudioEndCallback: player.setAudioEndCallback,
   getState: player.getState,
   getCurrentTrackNum: player.getCurrentTrackNum,
+  getNumberOfTracks: data.getNumberOfTracks,
 };

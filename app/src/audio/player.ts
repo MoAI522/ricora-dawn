@@ -5,6 +5,7 @@ import data from "./data";
 type TAudioPlayerState = "not_initialized" | "stopped" | "playing";
 type TAudioFadeTask = {
   trackNumber: number;
+  type: "fade" | "audioEnd";
   timeOutHandler: number;
 };
 type TSourceAndGain = {
@@ -21,6 +22,8 @@ let state: TAudioPlayerState = "not_initialized";
 let currentTrackNum = 0;
 let currentSourceAndGain: TSourceAndGain | null = null;
 let audioFadeTasks: Array<TAudioFadeTask> = [];
+
+let audioEndCallback: (() => void) | null = null;
 
 const init = () => {
   const ctx = context.getContext();
@@ -41,14 +44,18 @@ const play = (trackNumber: number) => {
   logger.debug("play", trackNumber, currentSourceAndGain, audioFadeTasks);
 
   if (
-    audioFadeTasks.some((v) => v.trackNumber == trackNumber) &&
+    audioFadeTasks.some(
+      (v) => v.trackNumber == trackNumber && v.type === "fade"
+    ) &&
     currentSourceAndGain !== null
   ) {
     logger.debug("cancel task");
     audioFadeTasks
-      .filter((v) => v.trackNumber == trackNumber)
+      .filter((v) => v.trackNumber == trackNumber && v.type === "fade")
       .forEach((task) => window.clearTimeout(task.timeOutHandler));
-    audioFadeTasks = audioFadeTasks.filter((v) => v.trackNumber != trackNumber);
+    audioFadeTasks = audioFadeTasks.filter(
+      (v) => v.trackNumber != trackNumber || v.type !== "fade"
+    );
 
     currentSourceAndGain.gainNode.gain.value =
       currentSourceAndGain.gainNode.gain.value;
@@ -67,6 +74,19 @@ const play = (trackNumber: number) => {
     bufferSource.connect(gainNode).connect(masterGainNode);
     bufferSource.start();
     currentSourceAndGain = { bufferSource: bufferSource, gainNode: gainNode };
+
+    const audioEndHandler = window.setTimeout(() => {
+      logger.debug("audio end");
+      audioFadeTasks = audioFadeTasks.filter(
+        (v) => v.trackNumber != trackNumber || v.type !== "audioEnd"
+      );
+      if (audioEndCallback !== null) audioEndCallback();
+    }, (audioBuffer.duration - fadeTime) * 1000);
+    audioFadeTasks.push({
+      trackNumber: trackNumber,
+      type: "audioEnd",
+      timeOutHandler: audioEndHandler,
+    });
   }
 
   {
@@ -74,14 +94,16 @@ const play = (trackNumber: number) => {
       1.0,
       ctx.currentTime + fadeTime
     );
-    const timeOutHandler = window.setTimeout(() => {
+    const fadeInCompleteHandler = window.setTimeout(() => {
       audioFadeTasks = audioFadeTasks.filter(
-        (v) => v.trackNumber != trackNumber
+        (v) => v.trackNumber != trackNumber && v.type !== "fade"
       );
     }, fadeTime);
+
     audioFadeTasks.push({
       trackNumber: trackNumber,
-      timeOutHandler: timeOutHandler,
+      type: "fade",
+      timeOutHandler: fadeInCompleteHandler,
     });
   }
 
@@ -94,7 +116,6 @@ const pause = () => {
   if (state !== "playing") return;
 
   fadeOutCurrentTrack(true);
-
   state = "stopped";
 };
 
@@ -120,17 +141,22 @@ const fadeOutCurrentTrack = (pause: boolean = false) => {
   const timeOutHandler = window.setTimeout(() => {
     bufferSource.stop();
     audioFadeTasks = audioFadeTasks.filter((v) => v.trackNumber != trackNum);
-    if (pause) currentSourceAndGain = null;
+    if (pause) {
+      currentSourceAndGain = null;
+    }
     logger.debug("audio stopped", currentTrackNum, audioFadeTasks);
   }, fadeTime * 1000);
   audioFadeTasks.push({
     trackNumber: currentTrackNum,
+    type: "fade",
     timeOutHandler: timeOutHandler,
   });
 };
 
 const setGain = (gain: number) =>
   masterGainNode?.gain.linearRampToValueAtTime(gain, 0.5);
+
+const setAudioEndCallback = (cb: () => void) => (audioEndCallback = cb);
 
 const getState = () => state;
 
@@ -141,6 +167,7 @@ export default {
   play,
   pause,
   setGain,
+  setAudioEndCallback,
   getState,
   getCurrentTrackNum,
 };
