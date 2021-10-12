@@ -1,4 +1,5 @@
 import audio from "./audio";
+import background from "./background";
 
 const playButton = document.getElementById("play_pause") as HTMLButtonElement;
 const trackNumberInput = document.getElementById(
@@ -39,3 +40,4 @@ gainInput.addEventListener("change", (e) => {
 });
 
 audio.load();
+background.init();
