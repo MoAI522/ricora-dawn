@@ -21,6 +21,7 @@ const maxGain = 1.0;
 let masterGainNode: GainNode | null = null;
 
 let state: TAudioPlayerState = "not_initialized";
+let currentTrackNumber = 0;
 let currentControl: TAudioControl | null = null;
 let audioTasks: Array<TAudioTask> = [];
 
@@ -77,6 +78,7 @@ const play = (trackNumber: number) => {
     gainNode: gainNode,
     trackNumber: trackNumber,
   };
+  currentTrackNumber = trackNumber;
 
   fade(currentControl, false);
 
@@ -165,7 +167,7 @@ const setAudioEndCallback = (cb: () => void) => (audioEndCallback = cb);
 
 const getState = () => state;
 
-const getCurrentTrackNumber = () => currentControl?.trackNumber || 0;
+const getCurrentTrackNumber = () => currentTrackNumber;
 
 export default {
   init,
