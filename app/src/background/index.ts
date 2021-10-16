@@ -1,3 +1,5 @@
+import draw from "./draw";
+
 const startColors: Array<Array<number>> = [
   [51, 37, 71],
   [15, 16, 64],
@@ -38,6 +40,8 @@ const init = () => {
   const backgroundElement = document.getElementById(
     "background"
   ) as HTMLDivElement;
+
+  draw.init(backgroundElement);
 
   let lastKnownScrollPosition = window.scrollY;
   {
