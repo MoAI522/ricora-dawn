@@ -64,14 +64,27 @@ const drawScene = (time: number) => {
 
   const worldMatrix = mat4.create();
 
+  const scrollRatio =
+    window.scrollY /
+    (document.documentElement.scrollHeight -
+      document.documentElement.clientHeight);
+
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.clearDepth(1.0);
   gl.enable(gl.CULL_FACE);
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  skybox.draw(gl, projectionMatrix, viewMatrix);
-  sea.draw(gl, projectionMatrix, viewMatrix, worldMatrix, cameraPosition, time);
+  skybox.draw(gl, projectionMatrix, viewMatrix, scrollRatio);
+  sea.draw(
+    gl,
+    projectionMatrix,
+    viewMatrix,
+    worldMatrix,
+    cameraPosition,
+    time,
+    scrollRatio
+  );
 
   requestAnimationFrame(drawScene);
 };

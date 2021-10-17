@@ -1,10 +1,10 @@
 const pathList = {
-  xp: "./images/xp.jpeg",
-  xn: "./images/xn.jpeg",
-  yp: "./images/yp.jpeg",
-  yn: "./images/yn.jpeg",
-  zp: "./images/zp.jpeg",
-  zn: "./images/zn.jpeg",
+  xp: "./images/px.png",
+  xn: "./images/nx.png",
+  yp: "./images/py.png",
+  yn: "./images/ny.png",
+  zp: "./images/pz.png",
+  zn: "./images/nz.png",
 };
 
 type THDRIImages = Record<keyof typeof pathList, HTMLImageElement>;
