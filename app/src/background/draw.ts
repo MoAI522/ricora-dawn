@@ -5,7 +5,6 @@ import skybox from "./skybox";
 import textures from "./textures";
 
 let gl: WebGLRenderingContext | null = null;
-let ctx: CanvasRenderingContext2D | null = null;
 
 const init = async (backgroundElement: HTMLDivElement) => {
   const canvasElement = document.createElement("canvas");
@@ -21,8 +20,7 @@ const init = async (backgroundElement: HTMLDivElement) => {
   gl = canvasElement.getContext("webgl");
 
   if (gl === null) {
-    fallbackToContext2D(canvasElement);
-    return;
+    return false;
   }
 
   gl.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -32,11 +30,11 @@ const init = async (backgroundElement: HTMLDivElement) => {
 
   textures.init(gl);
   if (!sea.init(gl) || !skybox.init(gl)) {
-    fallbackToContext2D(canvasElement);
-    return;
+    return false;
   }
 
   requestAnimationFrame(drawScene);
+  return true;
 };
 
 const drawScene = (time: number) => {
@@ -87,10 +85,6 @@ const drawScene = (time: number) => {
   );
 
   requestAnimationFrame(drawScene);
-};
-
-const fallbackToContext2D = (canvasElement: HTMLCanvasElement) => {
-  ctx = canvasElement.getContext("2d");
 };
 
 export default {
