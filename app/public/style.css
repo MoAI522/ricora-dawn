@@ -32,5 +32,17 @@ body {
 
 #title > h1 {
   font-size: 64px;
-  display: none;
+}
+
+#information .wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+#information .jacket-wrapper {
+  width: 512px;
+}
+
+#inormation .jacket-wrapper > img {
+  width: 100%;
 }
