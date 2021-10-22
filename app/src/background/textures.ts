@@ -8,30 +8,17 @@ const init = (gl: WebGLRenderingContext) => {
   const hdriImages = resources.getHDRIImages();
   const faceInfos = [
     { target: gl.TEXTURE_CUBE_MAP_POSITIVE_X, image: hdriImages.xp },
-    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X, image: hdriImages.xn },
+    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X, image: hdriImages.xp },
     { target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y, image: hdriImages.yp },
-    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, image: hdriImages.yn },
+    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, image: hdriImages.yp },
     { target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z, image: hdriImages.zp },
-    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, image: hdriImages.zn },
+    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, image: hdriImages.zp },
   ];
   faceInfos.forEach(({ target, image }) => {
     const level = 0;
     const internalFormat = gl.RGBA;
-    const width = 512;
-    const height = 512;
     const format = gl.RGBA;
     const type = gl.UNSIGNED_BYTE;
-    gl.texImage2D(
-      target,
-      level,
-      internalFormat,
-      width,
-      height,
-      0,
-      format,
-      type,
-      null
-    );
     gl.texImage2D(target, level, internalFormat, format, type, image);
   });
   gl.generateMipmap(gl.TEXTURE_CUBE_MAP);

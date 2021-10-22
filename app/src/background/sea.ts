@@ -35,13 +35,60 @@ uniform float uTime;
 uniform float uParam;
 uniform vec3 uWorldCameraPosition;
 
-const int   oct  = 8;
-const float per  = 0.5;
-const float PI   = 3.1415926;
-const float cCorners = 1.0 / 16.0;
-const float cSides   = 1.0 / 8.0;
-const float cCenter  = 1.0 / 4.0;
+//---noise---///
+vec3 mod289(vec3 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec4 mod289(vec4 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }
+vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
 
+float snoise(vec3 v){
+    const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+    vec3 i  = floor(v + dot(v, C.yyy) );
+    vec3 x0 = v - i + dot(i, C.xxx) ;
+    vec3 g = step(x0.yzx, x0.xyz);
+    vec3 l = 1.0 - g;
+    vec3 i1 = min( g.xyz, l.zxy );
+    vec3 i2 = max( g.xyz, l.zxy );
+    vec3 x1 = x0 - i1 + C.xxx;
+    vec3 x2 = x0 - i2 + C.yyy;
+    vec3 x3 = x0 - D.yyy;
+    i = mod289(i);
+    vec4 p = permute(permute(permute(
+              i.z + vec4(0.0, i1.z, i2.z, 1.0))
+            + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+            + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+    float n_ = 0.142857142857;
+    vec3 ns = n_ * D.wyz - D.xzx;
+    vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+    vec4 x_ = floor(j * ns.z);
+    vec4 y_ = floor(j - 7.0 * x_);
+    vec4 x = x_ * ns.x + ns.yyyy;
+    vec4 y = y_ * ns.x + ns.yyyy;
+    vec4 h = 1.0 - abs(x) - abs(y);
+    vec4 b0 = vec4(x.xy, y.xy);
+    vec4 b1 = vec4(x.zw, y.zw);
+    vec4 s0 = floor(b0)*2.0 + 1.0;
+    vec4 s1 = floor(b1)*2.0 + 1.0;
+    vec4 sh = -step(h, vec4(0.0));
+    vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+    vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+    vec3 p0 = vec3(a0.xy,h.x);
+    vec3 p1 = vec3(a0.zw,h.y);
+    vec3 p2 = vec3(a1.xy,h.z);
+    vec3 p3 = vec3(a1.zw,h.w);
+    vec4 norm = taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2, p2),dot(p3,p3)));
+    p0 *= norm.x;
+    p1 *= norm.y;
+    p2 *= norm.z;
+    p3 *= norm.w;
+    vec4 m = max(0.5 - vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);
+    m = m * m;
+    return 105.0 * dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+}
+//---noise---//
+
+//---gradation---//
 const vec4 phases = vec4(0.62, 0.37, 0.33, 0.);
 const vec4 amplitudes = vec4(1.00, 1.00, 1.00, 0.);
 const vec4 frequencies = vec4(0.01, 0.10, 0.08, 0.);
@@ -55,47 +102,6 @@ const vec4 sbAmplitudes = vec4(1.00, 1.00, 1.00, 0.);
 const vec4 sbOffsets = vec4(0.00, 0.00, 0.00, 0.);
 
 const float TAU = 2. * 3.14159265;
-
-// 補間関数
-float interpolate(float a, float b, float x){
-  float f = (1.0 - cos(x * PI)) * 0.5;
-  return a * (1.0 - f) + b * f;
-}
-
-// 乱数生成
-float rnd(vec2 p){
-  return fract(sin(dot(p ,vec2(12.9898,78.233))) * 43758.5453);
-}
-
-// 補間乱数
-float irnd(vec2 p){
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  vec4 v = vec4(rnd(vec2(i.x,       i.y      )),
-    rnd(vec2(i.x + 1.0, i.y      )),
-    rnd(vec2(i.x,       i.y + 1.0)),
-    rnd(vec2(i.x + 1.0, i.y + 1.0)));
-  return interpolate(interpolate(v.x, v.y, f.x), interpolate(v.z, v.w, f.x), f.y);
-}
-
-// ノイズ生成
-float noise(vec2 p){
-  float t = 0.0;
-  for(int i = 0; i < oct; i++){
-    float freq = pow(2.0, float(i));
-    float amp  = pow(per, float(oct - i));
-    t += irnd(vec2(p.x / freq, p.y / freq)) * amp;
-  }
-  return t;
-}
-
-// シームレスノイズ生成
-float snoise(vec2 p, vec2 q, vec2 r){
-  return noise(vec2(p.x,       p.y      )) *        q.x  *        q.y  +
-    noise(vec2(p.x,       p.y + r.y)) *        q.x  * (1.0 - q.y) +
-    noise(vec2(p.x + r.x, p.y      )) * (1.0 - q.x) *        q.y  +
-    noise(vec2(p.x + r.x, p.y + r.y)) * (1.0 - q.x) * (1.0 - q.y);
-}
 
 vec4 cosine_gradient(float x,  vec4 phase, vec4 amp, vec4 freq, vec4 offset){
   phase *= TAU;
@@ -112,6 +118,7 @@ vec4 cosine_gradient(float x,  vec4 phase, vec4 amp, vec4 freq, vec4 offset){
 vec3 toRGB(vec4 grad){
   return grad.rgb;
 }
+//---gradation---//
 
 float overrayf(float base, float mix) {
   if (base < 0.5) {
@@ -126,18 +133,18 @@ vec4 overray(vec4 base, vec4 mix) {
 }
 
 void main(void) {
-  const float map = 256.0;
-  const float scale = 5.0;
+  const float scale = 0.1;
+  const float pos_scale = 0.2;
   vec2 pos = (vPosition + vec2(1.0)) / 2.0 * 500.0;
-  vec2 dtv = vec2(0.0, uTime * 10.0);
-  vec2 tx1 = mod(pos + dtv + vec2(-0.5,0.0), map);
-  vec2 tx2 = mod(pos + dtv + vec2(0.5,0.0), map);
-  vec2 ty1 = mod(pos + dtv + vec2(0.0,-0.5), map);
-  vec2 ty2 = mod(pos + dtv + vec2(0.0,0.5), map);
-  float nx1 = snoise(tx1, tx1 / map, vec2(map));
-  float nx2 = snoise(tx2, tx2 / map, vec2(map));
-  float ny1 = snoise(ty1, ty1 / map, vec2(map));
-  float ny2 = snoise(ty2, ty2 / map, vec2(map));
+  vec2 dtv = vec2(0.0, uTime * 1.3);
+  vec2 tx1 = pos * pos_scale + dtv + vec2(-0.5,0.0);
+  vec2 tx2 = pos * pos_scale + dtv + vec2(0.5,0.0);
+  vec2 ty1 = pos * pos_scale + dtv + vec2(0.0,-0.5);
+  vec2 ty2 = pos * pos_scale + dtv + vec2(0.0,0.5);
+  float nx1 = snoise(vec3(tx1, uTime * 0.1));
+  float nx2 = snoise(vec3(tx2, uTime * 0.1));
+  float ny1 = snoise(vec3(ty1, uTime * 0.1));
+  float ny2 = snoise(vec3(ty2, uTime * 0.1));
   float dx = (nx2 - nx1) / 2.0 * scale * smoothstep(0.3, 0.5, (1.0 - (vPosition.y + 1.0) / 2.0));
   float dy = (ny2 - ny1) / 2.0 * scale * smoothstep(0.3, 0.5, (1.0 - (vPosition.y + 1.0) / 2.0));
   vec3 dxv = vec3(1,dx,0);
@@ -160,7 +167,6 @@ void main(void) {
   vec4 color = vec4(toRGB(cos_grad), 1.0);
 
   gl_FragColor = overray(overray(baseColor, sbOverrayColor),color);
-  //gl_FragColor = vec4(uv.y,uv.y,uv.y,1.0);
 }
 `;
 

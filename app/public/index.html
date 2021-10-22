@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+  <head
+    prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#"
+  >
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="og:type" content="website" />
     <meta property="og:site_name" content="RICORA MUSIC TEAM" />
-    <meta
-      property="og:url"
-      content=""
-    />
+    <meta property="og:url" content="" />
     <meta property="og:title" content="夜明け" />
-    <meta
-      property="og:description"
-      content="2021秋M3 第二展示場 シ-12"
-    />
+    <meta property="og:description" content="2021秋M3 第二展示場 シ-12" />
     <meta property="og:image" content="" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="./style.css"/>
+    <link rel="stylesheet" href="./style.css" />
 
     <title>RICORA MUSIC TEAM | 夜明け</title>
   </head>
   <body>
     <div id="background"></div>
     <div id="app">
-      <!-- <button id="play_pause">play/pause</button>
-      <input type="number" id="track_number" value="0"/>
-      <input type="number" id="gain" value="1" min="0.0" max="1.0" step="0.05"/>
-      <div style="height: 2000px;"></div> -->
       <section id="title">
-        <h1>夜明け</h1>
+        <div id="title-logo-wrapper"></div>
       </section>
       <section　id="information">
         <div class="wrapper">
           <div class="jacket-wrapper">
-            <img src="images/jacket.jpg"/>
+            <img src="images/jacket.jpg">
           </div>
           <div class="descripion-wrapper">
             <h2 class="title">夜明け</h2>
@@ -67,8 +61,11 @@
         </div>
       </section>
     </div>
-    <div>
-    <div style="height: 2000px;"></div>
+    <div id="audio-check-screen">
+      <div>このサイトは音が出ます。</div>
+      <button id="audio-check-ok"><div>確認</div></button>
+    </div>
+    <div style="height: 2000px"></div>
     <script src="./bundle.js"></script>
   </body>
 </html>
