@@ -15,7 +15,10 @@ const init = (onApproved: () => void, avoid = false) => {
     });
     audioCheckElement.classList.add("closing");
   });
-  if (avoid) audioCheckElement.style.display = "none";
+  if (avoid) {
+    audioCheckElement.style.display = "none";
+    onApproved();
+  }
 };
 
 export default {

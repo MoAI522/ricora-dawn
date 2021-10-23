@@ -31,25 +31,16 @@
       <section id="title">
         <div id="title-logo-wrapper"></div>
       </section>
-      <section　id="information">
+      <section id="information">
         <div class="wrapper">
-          <div class="jacket-wrapper">
-            <img src="images/jacket.jpg">
+          <div class="jacket-wrapper" id="jacket">
+            <img src="images/jacket.png" />
           </div>
-          <div class="descripion-wrapper">
+          <div class="description-wrapper" id="description">
             <h2 class="title">夜明け</h2>
             <div class="circle-name">RICORA MUSIC TEAM</div>
             <div class="track-list-title">Track List</div>
-            <ul class="track-list">
-              <li>Hello, my emptiness days<span>tsuki</span></li>
-              <li>Hundred Flavors<span>ろんぽう</span></li>
-              <li>藍の天に捧ぐささやかな願い<span>まいはね</span></li>
-              <li>Rainy Rainy Summer<span>udokatsu</span></li>
-              <li>レポート書いたら夜が開けた<span>ろんぽう</span></li>
-              <li>ターミネーター<span>MoAI</span></li>
-              <li>Lemonquartz<span>Yuhgao</span></li>
-              <li>anymore(colour mix)<span>ueharu</span></li>
-            </ul>
+            <ul class="track-list" id="information-track-list"></ul>
             <ul class="other-credit">
               <li>Mastering Engineer: tsuki</li>
               <li>Jacket Design: Yuhgao</li>
@@ -60,12 +51,30 @@
           </div>
         </div>
       </section>
+      <section id="links">
+        <div class="wrapper">
+          <a
+            class="official-sns-link sc"
+            href="https://soundcloud.com/ricora-music-team-1"
+            >Listen on SoundCloud</a
+          >
+          <a
+            class="official-sns-link tw"
+            href="https://twitter.com/ricora_dtm_dj"
+            >RICORA Music Team Twitter</a
+          >
+          <a
+            class="circle-link"
+            href="https://www.ed.tus.ac.jp/ricora/MusicTeam/"
+            ><img src="images/circle-logo.png"
+          /></a>
+        </div>
+      </section>
     </div>
     <div id="audio-check-screen">
       <div>このサイトは音が出ます。</div>
       <button id="audio-check-ok"><div>確認</div></button>
     </div>
-    <div style="height: 2000px"></div>
     <script src="./bundle.js"></script>
   </body>
 </html>

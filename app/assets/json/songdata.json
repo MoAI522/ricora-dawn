@@ -1,20 +1,54 @@
 [
   {
+    "title": "Hello, my emptiness days",
+    "filename": "01.wav",
+    "composer": "tsuki",
+    "twitter": "https://twitter.com/tsukisann_24",
+    "soundcloud": "https://soundcloud.com/fuiedrxdraxi"
+  },
+  {
+    "title": "Hundred Flavors",
+    "filename": "02.wav",
+    "composer": "ろんぽう",
+    "twitter": "https://twitter.com/Ron_Music_logic",
+    "soundcloud": "https://soundcloud.com/ronpo-1688"
+  },
+  {
+    "title": "藍の天に捧ぐささやかな願い",
+    "filename": "03.wav",
+    "composer": "まいはね"
+  },
+  {
+    "title": "Rainy Rainy Summer",
+    "composer": "udokatsu",
+    "filename": "04.wav",
+    "twitter": "https://twitter.com/udokatsu_",
+    "soundcloud": "https://soundcloud.com/udokatsu"
+  },
+  {
+    "title": "レポート書いたら夜が開けた",
+    "composer": "ろんぽう",
+    "filename": "05.wav",
+    "twitter": "https://twitter.com/Ron_Music_logic",
+    "soundcloud": "https://soundcloud.com/ronpo-1688"
+  },
+  {
     "title": "ターミネーター",
-    "filename": "terminator.mp3",
     "composer": "MoAI",
+    "filename": "06.wav",
     "twitter": "https://twitter.com/MoAI8888",
     "soundcloud": "https://soundcloud.com/ht7nvpukltxn"
   },
   {
-    "title": "track2",
-    "filename": "track_1.mp3",
-    "composer": "MoAI"
+    "title": "Lemonquartz",
+    "composer": "Yuhgao",
+    "filename": "07.wav",
+    "twitter": "https://twitter.com/Yuh_gao",
+    "soundcloud": "https://soundcloud.com/yuhgao"
   },
   {
-    "title": "track3",
-    "filename": "track_5.mp3",
-    "composer": "MoAI",
-    "soundcloud": "https://soundcloud.com/ht7nvpukltxn"
+    "title": "anymore(colour mix)",
+    "composer": "ueharu",
+    "filename": "08.wav"
   }
 ]

@@ -47,14 +47,140 @@ body {
 
 #information .wrapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  padding: 0 20px;
+  margin-bottom: 100px;
 }
 
 #information .jacket-wrapper {
-  width: 300px;
+  display: flex;
+  max-width: 500px;
+  box-shadow: #ffb492 0 0 20px;
 }
 
 #information .jacket-wrapper > img {
+  width: 100%;
+}
+
+#information .description-wrapper {
+  margin-left: 30px;
+}
+
+@media screen and (max-width: 1039px) {
+  #information .description-wrapper {
+    margin-left: 0;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
+#information .title {
+  font-size: 32px;
+  line-height: 1;
+  margin: 0 0 4px;
+  text-align: center;
+  letter-spacing: 8px;
+}
+
+#information .circle-name {
+  font-size: 20px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+#information .track-list-title {
+  font-size: 16px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #ffffff;
+}
+
+#information .track-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+}
+
+#information .track-list > li {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+#information .other-credit {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+}
+
+#information .price,
+#information .place {
+  font-size: 24px;
+}
+
+#links {
+  padding-bottom: 50px;
+}
+
+#links .wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  align-items: center;
+}
+
+#links .official-sns-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 10px;
+  transition-duration: 0.3s;
+  position: relative;
+}
+
+#links .official-sns-link::after {
+  content: " ";
+  position: absolute;
+  width: 0%;
+  height: 4px;
+  left: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  transition: 0.3s ease-out;
+}
+
+#links .official-sns-link:hover::after {
+  width: 100%;
+}
+
+#links .official-sns-link.sc:hover {
+  color: #fe5000;
+}
+
+#links .official-sns-link.sc:hover::after {
+  background-color: #fe5000;
+}
+
+#links .official-sns-link.tw:hover {
+  color: #1da1f2;
+}
+
+#links .official-sns-link.tw:hover::after {
+  background-color: #1da1f2;
+}
+
+#links .circle-link {
+  max-width: 400px;
+  margin-top: 20px;
+  transition-duration: 0.2s;
+}
+
+#links .circle-link:hover {
+  opacity: 0.6;
+}
+
+#links .circle-link > img {
   width: 100%;
 }
 
@@ -83,7 +209,7 @@ body {
   text-align: center;
 }
 
-@media (max-width: 576px) {
+@media screen and (max-width: 576px) {
   #audio-check-screen > div {
     font-size: 24px;
   }

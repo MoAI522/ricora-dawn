@@ -58,7 +58,7 @@ vec4 overray(vec4 base, vec4 mix) {
 }
 
 void main(void) {
-  vec4 t = uViewDirectionProjectionInverse * vec4(vPosition.x, max(vPosition.y, 0.01), vPosition.z, vPosition.w);
+  vec4 t = uViewDirectionProjectionInverse * vec4(vPosition.x, vPosition.y, vPosition.z, vPosition.w);
   vec4 baseColor = vec4(textureCube(uSkybox, normalize(t.xyz / t.w)).xyz * (smoothstep(0.0,0.5,uParam)* 0.1 + 0.9), 1.0);
 
   vec2 uv = vPosition.xy;

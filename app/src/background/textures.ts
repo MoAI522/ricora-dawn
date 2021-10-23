@@ -7,10 +7,10 @@ const init = (gl: WebGLRenderingContext) => {
   gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
   const hdriImages = resources.getHDRIImages();
   const faceInfos = [
-    { target: gl.TEXTURE_CUBE_MAP_POSITIVE_X, image: hdriImages.xp },
-    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X, image: hdriImages.xp },
-    { target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y, image: hdriImages.yp },
-    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, image: hdriImages.yp },
+    { target: gl.TEXTURE_CUBE_MAP_POSITIVE_X, image: hdriImages.zp },
+    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X, image: hdriImages.zp },
+    { target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y, image: hdriImages.zp },
+    { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, image: hdriImages.zp },
     { target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z, image: hdriImages.zp },
     { target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, image: hdriImages.zp },
   ];
