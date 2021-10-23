@@ -130,26 +130,36 @@ const init = async () => {
   tl.pause();
 
   const titleElement = document.getElementById("title") as HTMLElement;
-  scroll_manager.addListener("enter", titleElement, () => {
-    if (animDirection === "reverse") {
-      tl.reverse();
-      animDirection = "normal";
-    }
-    if (animState === "stoped") {
-      tl.play();
-      animState = "playing";
-    }
-  });
-  scroll_manager.addListener("exit", titleElement, () => {
-    if (animDirection === "normal") {
-      tl.reverse();
-      animDirection = "reverse";
-    }
-    if (animState === "stoped") {
-      tl.play();
-      animState = "playing";
-    }
-  });
+  scroll_manager.addListener(
+    "enter",
+    titleElement,
+    () => {
+      if (animDirection === "reverse") {
+        tl.reverse();
+        animDirection = "normal";
+      }
+      if (animState === "stoped") {
+        tl.play();
+        animState = "playing";
+      }
+    },
+    20
+  );
+  scroll_manager.addListener(
+    "exit",
+    titleElement,
+    () => {
+      if (animDirection === "normal") {
+        tl.reverse();
+        animDirection = "reverse";
+      }
+      if (animState === "stoped") {
+        tl.play();
+        animState = "playing";
+      }
+    },
+    20
+  );
 };
 
 const start = () => {

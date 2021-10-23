@@ -44,19 +44,22 @@ const play = (trackNumber: number) => {
   const ctx = context.getContext();
   const audioBuffer = data.getAudioBuffers()?.[trackNumber];
   if (ctx === null || audioBuffer === null) return;
-  logger.debug("play", trackNumber);
+  logger.debug("play", trackNumber, currentControl?.trackNumber, [
+    ...audioTasks,
+  ]);
 
   if (currentControl !== null) {
     fade(currentControl, true, true);
   }
 
   if (
-    audioTasks.some(
-      (v) => v.control.trackNumber == trackNumber && v.type == "fade"
-    )
+    audioTasks.some((v) => {
+      logger.debug("some", v.control.trackNumber, trackNumber, v.type);
+      return v.control.trackNumber == trackNumber && v.type === "fade";
+    })
   ) {
     const targetTasks = audioTasks.filter(
-      (v) => v.control.trackNumber == trackNumber && v.type == "fade"
+      (v) => v.control.trackNumber == trackNumber && v.type === "fade"
     );
     logger.debug(
       "this track already been playing. continue",
@@ -64,6 +67,7 @@ const play = (trackNumber: number) => {
       targetTasks
     );
     fade(targetTasks[0].control, false);
+    currentControl = targetTasks[0].control;
     return;
   }
 
@@ -92,7 +96,7 @@ const play = (trackNumber: number) => {
     timeOutHandler: audioEndHandler,
     control: currentControl,
   });
-  logger.debug("audio end reserved", ctx.currentTime, audioTasks);
+  logger.debug("audio end reserved", ctx.currentTime, [...audioTasks]);
 
   state = "playing";
 };
@@ -140,7 +144,7 @@ const fade = (
     timeOutHandler: timeOutHandler,
     control: control,
   });
-  logger.debug("fade task reserved", audioTasks);
+  logger.debug("fade task reserved", [...audioTasks]);
 };
 
 const filterTasks = (trackNumber: number, type: TAudioTaskType) => {
@@ -151,12 +155,9 @@ const filterTasks = (trackNumber: number, type: TAudioTaskType) => {
   audioTasks = audioTasks.filter(
     (v) => v.control.trackNumber != trackNumber || v.type !== type
   );
-  logger.debug(
-    "filtered tasks",
-    { trackNumber, type },
-    targetTasks,
-    audioTasks
-  );
+  logger.debug("filtered tasks", { trackNumber, type }, targetTasks, [
+    ...audioTasks,
+  ]);
 };
 
 const setGain = (gain: number) => {

@@ -5,19 +5,19 @@ const init = (onApproved: () => void, avoid = false) => {
   const audioCheckButton = document.getElementById(
     "audio-check-ok"
   ) as HTMLButtonElement;
-  if (!avoid)
-    document.getElementsByTagName("body")[0].style.overflow = "hidden";
   audioCheckButton.addEventListener("click", () => {
-    document.getElementsByTagName("body")[0].style.overflow = "auto";
+    document.getElementsByTagName("html")[0].style.overflow = "";
     audioCheckElement.addEventListener("transitionend", () => {
       audioCheckElement.style.display = "none";
-      onApproved();
     });
     audioCheckElement.classList.add("closing");
+    onApproved();
   });
   if (avoid) {
-    audioCheckElement.style.display = "none";
+    document.getElementsByTagName("html")[0].style.overflow = "";
     onApproved();
+  } else {
+    audioCheckElement.style.display = "flex";
   }
 };
 

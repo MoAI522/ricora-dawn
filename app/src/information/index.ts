@@ -57,28 +57,38 @@ const init = () => {
   const informationElement = document.getElementById(
     "information"
   ) as HTMLElement;
-  scroll_manager.addListener("enter", informationElement, (direction) => {
-    if (direction === "up") return;
-    if (animDirection === "reverse") {
-      tl.reverse();
-      animDirection = "normal";
-    }
-    if (animState === "stoped") {
-      tl.play();
-      animState = "playing";
-    }
-  });
-  scroll_manager.addListener("exit", informationElement, (direction) => {
-    if (direction === "down") return;
-    if (animDirection === "normal") {
-      tl.reverse();
-      animDirection = "reverse";
-    }
-    if (animState === "stoped") {
-      tl.play();
-      animState = "playing";
-    }
-  });
+  scroll_manager.addListener(
+    "enter",
+    informationElement,
+    (direction) => {
+      if (direction === "up") return;
+      if (animDirection === "reverse") {
+        tl.reverse();
+        animDirection = "normal";
+      }
+      if (animState === "stoped") {
+        tl.play();
+        animState = "playing";
+      }
+    },
+    0
+  );
+  scroll_manager.addListener(
+    "exit",
+    informationElement,
+    (direction) => {
+      if (direction === "down") return;
+      if (animDirection === "normal") {
+        tl.reverse();
+        animDirection = "reverse";
+      }
+      if (animState === "stoped") {
+        tl.play();
+        animState = "playing";
+      }
+    },
+    0
+  );
 };
 
 export default {

@@ -4,6 +4,7 @@ type TListener = {
   eventType: TEventType;
   target: HTMLElement;
   callback: (direction: TDirection) => void;
+  tail: number;
 };
 
 const listeners: Record<string, TListener> = {};
@@ -20,7 +21,9 @@ const eventCheck = () => {
   Object.values(listeners).forEach((listener) => {
     const topY = listener.target.offsetTop;
     const bottomY =
-      listener.target.offsetTop + listener.target.clientHeight / 2 + 20;
+      listener.target.offsetTop +
+      listener.target.clientHeight / 2 +
+      listener.tail;
     if (listener.eventType === "enter" && topY >= previousY && topY < currentY)
       listener.callback("down");
     else if (
@@ -49,16 +52,17 @@ const eventCheck = () => {
 const addListener = (
   eventType: TEventType,
   target: HTMLElement,
-  callback: (direction: TDirection) => void
+  callback: (direction: TDirection) => void,
+  tail: number
 ) => {
   if (
     eventType === "enter" &&
     target.offsetTop <= previousY &&
-    previousY < target.offsetTop + target.clientHeight / 2 + 20
+    previousY < target.offsetTop + target.clientHeight / 2 + tail
   )
     callback("down");
 
-  listeners[count] = { eventType, target, callback };
+  listeners[count] = { eventType, target, callback, tail };
   count++;
   return count - 1;
 };

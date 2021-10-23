@@ -154,7 +154,7 @@ void main(void) {
   vec3 worldNormal = normalize(windedNormal);
   vec3 eyeToSurfaceDir = normalize(vWorldPosition - uWorldCameraPosition);
   vec3 direction = reflect(eyeToSurfaceDir, worldNormal);
-  vec4 baseColor = vec4(textureCube(uSkybox, direction).xyz * (smoothstep(0.0,0.5,uParam)* 0.1 + 0.9), 1.0);
+  vec4 baseColor = vec4(textureCube(uSkybox, direction).xyz * (smoothstep(0.0,0.5,uParam)* 0.1 + 0.9) * 0.9, 1.0);
 
   vec2 uv = 1.0 - smoothstep(0.0, 0.1, clamp(vPosition + 0.04, 0.0, 1.0));
   vec4 cos_grad = cosine_gradient(uv.y, mix(sbPhasesFrom, sbPhasesTo, uParam), sbAmplitudes, mix(sbFrequenciesFrom, sbFrequenciesTo, uParam), sbOffsets);
