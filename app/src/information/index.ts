@@ -1,16 +1,17 @@
-import anime from "animejs";
+import anime, { AnimeTimelineInstance } from "animejs";
 import songdata from "../../assets/json/songdata.json";
 import scroll_manager from "../scroll_manager";
 
 let animDirection: "normal" | "reverse" = "normal";
 let animState: "playing" | "stoped" = "stoped";
+let tl: AnimeTimelineInstance;
 
 const init = () => {
   const jacketElem = document.getElementById("jacket");
   const descriptionElem = document.getElementById("description");
   const trackListElem = document.getElementById("information-track-list");
 
-  const tl = anime.timeline({
+  tl = anime.timeline({
     duration: 1000,
     easing: "easeOutQuart",
     update: (anim) => {
@@ -21,6 +22,7 @@ const init = () => {
     complete: () => {
       animState = "stoped";
     },
+    autoplay: false,
   });
 
   tl.add({
@@ -52,7 +54,6 @@ const init = () => {
     },
     "-=1500"
   );
-  tl.pause();
 
   const informationElement = document.getElementById(
     "information"
@@ -91,6 +92,18 @@ const init = () => {
   );
 };
 
+const onAudioEnabled = () => {
+  const informationElem = document.getElementById("information") as HTMLElement;
+  if (
+    informationElem.offsetTop <
+    window.scrollY + document.documentElement.clientHeight / 2
+  ) {
+    tl.play();
+    animState = "playing";
+  }
+};
+
 export default {
   init,
+  onAudioEnabled,
 };

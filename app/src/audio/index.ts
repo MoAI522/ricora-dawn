@@ -16,6 +16,10 @@ const init = async () => {
   player.init();
 
   state = "initialized";
+
+  document.addEventListener("xfdplay", () => {
+    player.pause();
+  });
 };
 
 export default {

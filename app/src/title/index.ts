@@ -36,6 +36,7 @@ const init = async () => {
     complete: () => {
       animState = "stoped";
     },
+    autoplay: false,
   });
   tl.add({
     targets: imageElems[1],
@@ -127,7 +128,6 @@ const init = async () => {
       },
       "-=1200"
     );
-  tl.pause();
 
   const titleElement = document.getElementById("title") as HTMLElement;
   scroll_manager.addListener(
@@ -162,12 +162,19 @@ const init = async () => {
   );
 };
 
-const start = () => {
-  tl.restart();
+const onAudioEnabled = () => {
+  const titleElem = document.getElementById("information") as HTMLElement;
+  if (
+    titleElem.clientHeight + 20 >=
+    window.scrollY + document.documentElement.clientHeight / 2
+  ) {
+    tl.play();
+    animState = "playing";
+  }
 };
 
 export default {
   load,
   init,
-  start,
+  onAudioEnabled,
 };

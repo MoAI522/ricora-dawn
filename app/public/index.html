@@ -52,18 +52,27 @@
           </div>
         </div>
       </section>
+      <section id="crossfade">
+        <div id="xfd-player"></div>
+      </section>
       <section id="links">
         <div class="wrapper">
-          <a
-            class="official-sns-link sc"
-            href="https://soundcloud.com/ricora-music-team-1"
-            >Listen on SoundCloud</a
-          >
-          <a
-            class="official-sns-link tw"
-            href="https://twitter.com/ricora_dtm_dj"
-            >RICORA Music Team Twitter</a
-          >
+          <div class="sns-link-container">
+            <a
+              class="official-sns-link yt"
+              href="https://www.youtube.com/channel/UCqke0S_egzSFtf5Yu1_YN4A"
+              >Youtube</a
+            ><a
+              class="official-sns-link sc"
+              href="https://soundcloud.com/ricora-music-team-1"
+              >SoundCloud</a
+            >
+            <a
+              class="official-sns-link tw"
+              href="https://twitter.com/ricora_dtm_dj"
+              >Twitter</a
+            >
+          </div>
           <a
             class="circle-link"
             href="https://www.ed.tus.ac.jp/ricora/MusicTeam/"
@@ -102,6 +111,31 @@
       <div class="caption">このサイトは音が出ます。</div>
       <button id="audio-check-ok"><div>確認</div></button>
     </div>
+    <script>
+      var tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("xfd-player", {
+          height: "360",
+          width: "640",
+          videoId: "oVUjArVXqxY",
+          events: {
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      function onPlayerStateChange(event) {
+        console.log(event.data, YT.PlayerState.PLAYING);
+        if (event.data == YT.PlayerState.PLAYING) {
+          document.dispatchEvent(new Event("xfdplay", { bubbles: true }));
+        }
+      }
+    </script>
     <script src="./bundle.js"></script>
   </body>
 </html>

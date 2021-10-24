@@ -163,7 +163,11 @@ body {
 }
 
 #information {
-  margin-bottom: 100px;
+  min-height: 80vh;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #information > .wrapper {
@@ -177,6 +181,7 @@ body {
   display: flex;
   max-width: 500px;
   box-shadow: #ffb492 0 0 20px;
+  user-select: none;
 }
 
 #information .jacket-wrapper > img {
@@ -239,6 +244,13 @@ body {
   font-size: 24px;
 }
 
+#crossfade {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+  padding: 0 20px;
+}
+
 #links {
   padding-bottom: 50px;
 }
@@ -250,13 +262,24 @@ body {
   align-items: center;
 }
 
+#links .sns-link-container {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
 #links .official-sns-link {
   text-decoration: none;
   color: #ffffff;
   font-size: 20px;
-  margin-bottom: 10px;
   transition-duration: 0.3s;
   position: relative;
+}
+
+#links .official-sns-link:not(:first-child) {
+  margin-left: 30px;
 }
 
 #links .official-sns-link::after {
@@ -272,6 +295,14 @@ body {
 
 #links .official-sns-link:hover::after {
   width: 100%;
+}
+
+#links .official-sns-link.yt:hover {
+  color: #ff0000;
+}
+
+#links .official-sns-link.yt:hover::after {
+  background-color: #ff0000;
 }
 
 #links .official-sns-link.sc:hover {
