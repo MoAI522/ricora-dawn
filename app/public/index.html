@@ -73,7 +73,33 @@
       </section>
     </div>
     <div id="audio-check-screen">
-      <div>このサイトは音が出ます。</div>
+      <div class="loading" id="loading-wrapper">
+        <svg id="loading-svg" width="256" height="256">
+          <path
+            d=" M 0 128 Q 40.587 112 64 112 Q 87.413 112 128 128 Q 168.587 144 192 144 Q 215.413 144 256 128"
+            fill="none"
+            stroke-width="1"
+            stroke="white"
+            class="wave"
+          />
+          <clipPath id="above-the-sea">
+            <path
+              class="wave-mask"
+              d=" M 0 128 Q 40.587 112 64 112 Q 87.413 112 128 128 Q 168.587 144 192 144 Q 215.413 144 256 128 L 256 0 L 0 0 L 0 128"
+            />
+          </clipPath>
+          <circle
+            class="sun"
+            cx="128"
+            cy="192"
+            r="48"
+            stroke="white"
+            fill="transparent"
+            clip-path="url(#above-the-sea)"
+          />
+        </svg>
+      </div>
+      <div class="caption">このサイトは音が出ます。</div>
       <button id="audio-check-ok"><div>確認</div></button>
     </div>
     <script src="./bundle.js"></script>

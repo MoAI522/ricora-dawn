@@ -1,11 +1,20 @@
-const init = (onApproved: () => void, avoid = false) => {
+import loading from "./loading";
+
+const init = async (onApproved: () => void, avoid = false) => {
   const audioCheckElement = document.getElementById(
     "audio-check-screen"
   ) as HTMLDivElement;
   const audioCheckButton = document.getElementById(
     "audio-check-ok"
   ) as HTMLButtonElement;
+
+  await loading.stop();
+  audioCheckElement.classList.add("ready");
+  await new Promise((resolve) => requestAnimationFrame(() => resolve("")));
+  audioCheckElement.classList.add("fadein");
+
   audioCheckButton.addEventListener("click", () => {
+    audioCheckButton.disabled = true;
     document.getElementsByTagName("html")[0].style.overflow = "";
     audioCheckElement.addEventListener("transitionend", () => {
       audioCheckElement.style.display = "none";
@@ -17,7 +26,7 @@ const init = (onApproved: () => void, avoid = false) => {
     document.getElementsByTagName("html")[0].style.overflow = "";
     onApproved();
   } else {
-    audioCheckElement.style.display = "flex";
+    audioCheckElement.classList.remove("loading");
   }
 };
 

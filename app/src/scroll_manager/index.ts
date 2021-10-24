@@ -13,6 +13,16 @@ let previousY: number;
 
 const init = () => {
   previousY = window.scrollY + document.documentElement.clientHeight / 2;
+
+  Object.values(listeners).forEach(({ eventType, target, tail, callback }) => {
+    if (
+      eventType === "enter" &&
+      target.offsetTop <= previousY &&
+      previousY < target.offsetTop + target.clientHeight / 2 + tail
+    )
+      callback("down");
+  });
+
   requestAnimationFrame(eventCheck);
 };
 
@@ -55,13 +65,6 @@ const addListener = (
   callback: (direction: TDirection) => void,
   tail: number
 ) => {
-  if (
-    eventType === "enter" &&
-    target.offsetTop <= previousY &&
-    previousY < target.offsetTop + target.clientHeight / 2 + tail
-  )
-    callback("down");
-
   listeners[count] = { eventType, target, callback, tail };
   count++;
   return count - 1;

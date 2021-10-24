@@ -305,7 +305,6 @@ body {
 }
 
 #audio-check-screen {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -324,14 +323,30 @@ body {
   opacity: 0;
 }
 
-#audio-check-screen > div {
+#audio-check-screen > .loading {
+  opacity: 1;
+  transition-duration: 0.5s;
+}
+
+#audio-check-screen > .loading.fadeout {
+  opacity: 0;
+}
+
+#audio-check-screen.ready > .loading {
+  display: none;
+}
+
+#audio-check-screen > .caption {
   font-size: 40px;
   margin-bottom: 20px;
   text-align: center;
+  display: none;
+  opacity: 0;
+  transition: 0.5s;
 }
 
 @media screen and (max-width: 576px) {
-  #audio-check-screen > div {
+  #audio-check-screen > .caption {
     font-size: 24px;
   }
 }
@@ -341,12 +356,14 @@ body {
   border: 1px solid #ffffff;
   background: transparent;
   font-size: 28px;
-  display: flex;
   align-items: center;
   height: 50px;
   padding: 0 60px;
   cursor: pointer;
   transition-duration: 0.2s;
+  display: none;
+  opacity: 0;
+  transition-duration: 0.5s;
 }
 
 #audio-check-screen > #audio-check-ok:hover {
@@ -355,4 +372,14 @@ body {
 
 #audio-check-screen > #audio-check-ok > div {
   margin-bottom: 4px;
+}
+
+#audio-check-screen.ready > .caption,
+#audio-check-screen.ready > #audio-check-ok {
+  display: flex;
+}
+
+#audio-check-screen.ready.fadein > .caption,
+#audio-check-screen.ready.fadein > #audio-check-ok {
+  opacity: 1;
 }
