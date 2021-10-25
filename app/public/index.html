@@ -138,9 +138,13 @@
       }
 
       function onPlayerStateChange(event) {
-        console.log(event.data, YT.PlayerState.PLAYING);
         if (event.data == YT.PlayerState.PLAYING) {
           document.dispatchEvent(new Event("xfdplay", { bubbles: true }));
+        } else if (
+          event.data == YT.PlayerState.PAUSED ||
+          event.data == YT.PlayerState.ENDED
+        ) {
+          document.dispatchEvent(new Event("xfdstop", { bubbles: true }));
         }
       }
     </script>

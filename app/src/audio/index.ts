@@ -13,12 +13,16 @@ const init = async () => {
 
   context.init();
   await data.init();
-  player.init();
+  await player.init();
 
   state = "initialized";
 
   document.addEventListener("xfdplay", () => {
     player.pause();
+    player.lock();
+  });
+  document.addEventListener("xfdstop", () => {
+    player.unlock();
   });
 };
 

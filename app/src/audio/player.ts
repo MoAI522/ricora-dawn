@@ -24,6 +24,7 @@ let state: TAudioPlayerState = "not_initialized";
 let currentTrackNumber = 0;
 let currentControl: TAudioControl | null = null;
 let audioTasks: Array<TAudioTask> = [];
+let locked = false;
 
 let audioEndCallback: (() => void) | null = null;
 
@@ -34,9 +35,21 @@ const init = () => {
   masterGainNode.gain.value = maxGain;
   masterGainNode.connect(ctx.destination);
   state = "stopped";
+
+  const silence = ctx.createBufferSource();
+  silence.connect(ctx.destination);
+  silence.buffer = ctx.createBuffer(1, 1, 22050);
+  return new Promise((resolve) => {
+    silence.onended = () => {
+      silence.disconnect(0);
+      resolve("");
+    };
+    silence.start(0);
+  });
 };
 
 const play = (trackNumber: number) => {
+  if (locked) return;
   if (trackNumber < 0 || trackNumber >= data.getAudioBuffers().length) return;
   if (state === "playing" && trackNumber == currentControl?.trackNumber) return;
   if (state === "not_initialized") return;
@@ -111,6 +124,9 @@ const pause = () => {
   state = "stopped";
 };
 
+const lock = () => (locked = true);
+const unlock = () => (locked = false);
+
 const fade = (
   control: TAudioControl,
   isFadeout: boolean,
@@ -178,4 +194,6 @@ export default {
   setAudioEndCallback,
   getState,
   getCurrentTrackNumber,
+  lock,
+  unlock,
 };

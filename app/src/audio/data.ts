@@ -21,9 +21,11 @@ const load = async () => {
 const init = async () => {
   audioBuffers = await Promise.all(
     arrayBuffers.map(async (arrayBuffer) => {
-      const audioBuffer = await context
-        .getContext()
-        ?.decodeAudioData(arrayBuffer);
+      const audioBuffer = await context.getContext()?.decodeAudioData(
+        arrayBuffer,
+        (buffer) => buffer,
+        (e) => null
+      );
       return audioBuffer || null;
     })
   );
