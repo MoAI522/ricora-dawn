@@ -174,12 +174,15 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: stretch;
   padding: 0 20px;
 }
 
 #information .jacket-wrapper {
   display: flex;
+  align-items: flex-start;
   max-width: 500px;
+  max-height: 500px;
   box-shadow: #ffb492 0 0 20px;
   user-select: none;
 }
@@ -246,6 +249,7 @@ body {
 
 #crossfade {
   display: flex;
+  align-items: stretch;
   justify-content: center;
   margin-bottom: 100px;
   padding: 0 20px;
@@ -257,6 +261,7 @@ body {
 
 #links .wrapper {
   display: flex;
+  align-items: stretch;
   flex-direction: column;
   padding: 0 20px;
   align-items: center;
@@ -266,6 +271,7 @@ body {
   display: flex;
   width: 100%;
   max-width: 400px;
+  align-items: stretch;
   justify-content: center;
   margin-bottom: 10px;
 }
@@ -343,6 +349,7 @@ body {
   height: 100%;
   background-color: #050510;
   display: flex;
+  align-items: stretch;
   flex-direction: column;
   align-items: center;
   justify-content: center;
