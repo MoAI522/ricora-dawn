@@ -15,17 +15,31 @@ const load = async () => {
       return arrayBuffer;
     })
   );
-  logger.debug("loading completed");
+  logger.debug("loading completed", { arrayBuffers });
 };
 
 const init = async () => {
+  logger.debug("data init", { arrayBuffers });
   audioBuffers = await Promise.all(
     arrayBuffers.map(async (arrayBuffer) => {
-      const audioBuffer = await context.getContext()?.decodeAudioData(
-        arrayBuffer,
-        (buffer) => buffer,
-        (e) => null
+      const audioBuffer = await new Promise<AudioBuffer | null>((resolve) =>
+        context.getContext()?.decodeAudioData(
+          arrayBuffer,
+          (buffer) => {
+            logger.debug("buffer", { buffer });
+            resolve(buffer);
+          },
+          (e) => {
+            logger.debug("decodeAudioData error", { e });
+            resolve(null);
+          }
+        )
       );
+      logger.debug("arrayBuffers map", {
+        arrayBuffer,
+        audioBuffer,
+        ctx: context.getContext(),
+      });
       return audioBuffer || null;
     })
   );

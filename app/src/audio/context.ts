@@ -1,3 +1,5 @@
+import { logger } from ".";
+
 let ctx: AudioContext | null = null;
 
 declare global {
@@ -8,6 +10,7 @@ declare global {
 
 export const init = () => {
   ctx = new (window.AudioContext || window.webkitAudioContext)();
+  logger.debug("context init", { ctx });
 };
 
 export const getContext = () => ctx;

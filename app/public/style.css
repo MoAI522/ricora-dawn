@@ -240,8 +240,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   max-width: 500px;
   max-height: 500px;
@@ -484,6 +484,17 @@ body {
 
 #audio-check-screen > .caption {
   font-size: 40px;
+  text-align: center;
+  display: none;
+  opacity: 0;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+
+#audio-check-screen > .die-safari {
+  color: #bbbbbb;
+  font-size: 18px;
   margin-bottom: 20px;
   text-align: center;
   display: none;
@@ -496,6 +507,10 @@ body {
 @media screen and (max-width: 576px) {
   #audio-check-screen > .caption {
     font-size: 24px;
+  }
+
+  #audio-check-screen > .caption {
+    font-size: 14px;
   }
 }
 
@@ -525,6 +540,7 @@ body {
 }
 
 #audio-check-screen.ready > .caption,
+#audio-check-screen.ready > .die-safari,
 #audio-check-screen.ready > #audio-check-ok {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -532,6 +548,7 @@ body {
 }
 
 #audio-check-screen.ready.fadein > .caption,
+#audio-check-screen.ready.fadein > .die-safari,
 #audio-check-screen.ready.fadein > #audio-check-ok {
   opacity: 1;
 }

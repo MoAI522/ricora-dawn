@@ -39,16 +39,29 @@ const init = () => {
   const silence = ctx.createBufferSource();
   silence.connect(ctx.destination);
   silence.buffer = ctx.createBuffer(1, 1, 22050);
+  logger.debug("player init", { ctx, masterGainNode, state, silence });
   return new Promise((resolve) => {
     silence.onended = () => {
+      logger.debug("silence end");
+      if (masterGainNode === null) return;
       silence.disconnect(0);
       resolve("");
     };
+    logger.debug("silence start", { silence });
     silence.start(0);
+    setTimeout(() => resolve(""), 500);
   });
 };
 
 const play = (trackNumber: number) => {
+  logger.debug("try to play...", {
+    locked,
+    trackNumber,
+    length: data.getAudioBuffers().length,
+    state,
+    currentControl,
+    masterGainNode,
+  });
   if (locked) return;
   if (trackNumber < 0 || trackNumber >= data.getAudioBuffers().length) return;
   if (state === "playing" && trackNumber == currentControl?.trackNumber) return;
@@ -56,6 +69,11 @@ const play = (trackNumber: number) => {
   if (masterGainNode === null) return;
   const ctx = context.getContext();
   const audioBuffer = data.getAudioBuffers()?.[trackNumber];
+  logger.debug("try to play 2 ...", {
+    ctx,
+    bfs: data.getAudioBuffers(),
+    audioBuffer,
+  });
   if (ctx === null || audioBuffer === null) return;
   logger.debug("play", trackNumber, currentControl?.trackNumber, [
     ...audioTasks,

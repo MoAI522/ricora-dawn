@@ -3,8 +3,10 @@ import songdata from "../../assets/json/songdata.json";
 import audio from "../audio";
 import config from "../config";
 import scroll_manager from "../scroll_manager";
+import createLogger from "../utilities/logger";
 
 let songElems: Array<HTMLDivElement>;
+const logger = createLogger("songs");
 
 const init = () => {
   const songsElem = document.getElementById("songs");
@@ -122,6 +124,7 @@ const init = () => {
       "enter",
       songElem,
       () => {
+        logger.debug("enter", { index, songElem });
         if (animDirection === "reverse") {
           tl.reverse();
           animDirection = "normal";
@@ -130,6 +133,7 @@ const init = () => {
           tl.play();
           animState = "playing";
         }
+        logger.debug("play", { index });
         audio.play(index);
       },
       songElem.clientHeight * 0.2
@@ -138,6 +142,7 @@ const init = () => {
       "exit",
       songElem,
       () => {
+        logger.debug("exit", { songElem });
         if (animDirection === "normal") {
           tl.reverse();
           animDirection = "reverse";
@@ -156,9 +161,11 @@ const init = () => {
 
 const onAudioEnabled = () => {
   audio.setAudioEndCallback(() => {
+    logger.debug("audioEndCallback");
     const trackNumber = audio.getCurrentTrackNum();
     let scrollTo = 0;
     if (trackNumber == audio.getNumberOfTracks() - 1) {
+      logger.debug("pause");
       audio.pause();
       const informationElem = document.getElementById(
         "information"
@@ -169,6 +176,7 @@ const onAudioEnabled = () => {
           document.documentElement.clientHeight
       );
     } else {
+      logger.debug("play", { index: trackNumber + 1 });
       audio.play(trackNumber + 1);
       scrollTo = songElems[trackNumber + 1].offsetTop - 50;
     }
@@ -205,15 +213,18 @@ const onAudioEnabled = () => {
 
   const scrollY = window.scrollY + document.documentElement.clientHeight / 2;
   if (scrollY <= songElems[0].offsetTop) {
+    logger.debug("play(initial)", { index: 0 });
     audio.play(0);
     return;
   } else if (songElems[songElems.length - 1].offsetTop < scrollY) {
+    logger.debug("play(initial)", { index: songElems.length - 1 });
     audio.play(songElems.length - 1);
     return;
   }
 
   for (let i = songElems.length - 1; i >= 0; i--) {
     if (songElems[i].offsetTop < scrollY) {
+      logger.debug("play(initial)", { index: i });
       audio.play(i);
       break;
     }

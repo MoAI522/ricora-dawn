@@ -9,6 +9,7 @@ type TAudioState = "not_initialized" | "initialized";
 let state: TAudioState = "not_initialized";
 
 const init = async () => {
+  logger.debug("init", { state });
   if (state === "initialized") return;
 
   context.init();
@@ -24,6 +25,7 @@ const init = async () => {
   document.addEventListener("xfdstop", () => {
     player.unlock();
   });
+  logger.debug("init end", { state });
 };
 
 export default {
